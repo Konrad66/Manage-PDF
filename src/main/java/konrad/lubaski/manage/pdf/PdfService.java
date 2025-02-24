@@ -1,19 +1,27 @@
 package konrad.lubaski.manage.pdf;
 
-import konrad.lubaski.manage.common.DisableSpringSecurity;
 import org.springframework.stereotype.Component;
 
-import java.util.Scanner;
+import java.util.*;
 
 @Component
 public class PdfService {
 
+    private PdfJpaRepository pdfJpaRepository;
 
-    private DisableSpringSecurity disableSpringSecurity;
+    public PdfService(PdfJpaRepository pdfJpaRepository) {
+        this.pdfJpaRepository = pdfJpaRepository;
+    }
 
-    public PdfService(DisableSpringSecurity disableSpringSecurity) {
-        this.disableSpringSecurity = disableSpringSecurity;
+    public PdfEntity getPdf(Integer pdfId) {
+        return pdfJpaRepository.findById(pdfId).orElseThrow();
+    }
 
-        System.out.println("Created pdf service");
+    public Collection<PdfEntity> getPdfs() {
+        return pdfJpaRepository.findAll();
+    }
+
+    public void addPdf(String pdf) {
+        pdfJpaRepository.save(new PdfEntity(pdf));
     }
 }

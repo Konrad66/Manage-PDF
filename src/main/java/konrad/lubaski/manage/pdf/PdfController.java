@@ -3,15 +3,15 @@ package konrad.lubaski.manage.pdf;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 public class PdfController {
 
-    private Map<Integer, String> pdfMap = new HashMap<>();
-    private int nextId = 1;
+    private PdfService pdfService;
 
+    public PdfController(PdfService pdfService) {
+        this.pdfService = pdfService;
+    }
 
     @GetMapping("/get-data/{pdfId}")
     public String getMyData(String city, @RequestParam("liczba_ludnosci") Integer peopleCount, @PathVariable Integer pdfId) {
@@ -21,20 +21,17 @@ public class PdfController {
     }
 
     @GetMapping("/pdfs/{pdfId}")
-    public String getNewPdf(@PathVariable Integer pdfId) {
-        return pdfMap.get(pdfId);
+    public PdfEntity getNewPdf(@PathVariable Integer pdfId) {
+        return pdfService.getPdf(pdfId);
     }
 
     @GetMapping("/pdfs")
-    public Collection<String> getAllPdfs() {
-        return pdfMap.values();
+    public Collection<PdfEntity> getAllPdfs() {
+        return pdfService.getPdfs();
     }
 
     @PostMapping("/pdfs")
     public void addNewPdf(@RequestBody String pdf) {
-        pdfMap.put(nextId, pdf);
-        nextId++;
+        pdfService.addPdf(pdf);
     }
-
-
 }
