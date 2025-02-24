@@ -21,7 +21,9 @@ public class DisableSpringSecurity {
 
     @Bean
     public SecurityFilterChain configureSecurity(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.authorizeHttpRequests(customizer -> customizer.anyRequest().permitAll())
+        return httpSecurity
+                .csrf(customizer -> customizer.disable())
+                .authorizeHttpRequests(customizer -> customizer.anyRequest().permitAll())
                 .build();
     }
 }
