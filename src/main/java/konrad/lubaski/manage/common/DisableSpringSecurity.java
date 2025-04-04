@@ -23,6 +23,7 @@ public class DisableSpringSecurity {
     public SecurityFilterChain configureSecurity(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(customizer -> customizer.disable())
+                .headers(customizer -> customizer.disable())
                 .authorizeHttpRequests(customizer -> customizer.anyRequest().permitAll())
                 .build();
     }

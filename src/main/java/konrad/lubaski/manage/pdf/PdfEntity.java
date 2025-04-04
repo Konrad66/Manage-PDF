@@ -2,7 +2,6 @@ package konrad.lubaski.manage.pdf;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 //wymagane przez Hibernate
@@ -11,7 +10,7 @@ public class PdfEntity {
 
     //wymagane przez Hibernate
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int id;
     private String content;
 
@@ -22,7 +21,6 @@ public class PdfEntity {
     //wymagane przez Hibernate
     //wymagane przez Jackson
     PdfEntity() {
-
     }
 
     //wymagane przez Jackson
