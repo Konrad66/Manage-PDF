@@ -14,17 +14,17 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/{accountId}")
-    public AccountEntity getAccounts(@PathVariable Integer accountId) {
+    public AccountDTO getAccounts(@PathVariable Integer accountId) {
         return accountService.getAccount(accountId);
     }
 
     @GetMapping("/accounts")
-    public Collection<AccountEntity> getAllAccounts() {
+    public Collection<AccountDTO> getAllAccounts() {
         return accountService.getAccounts();
     }
 
     @PostMapping("/accounts")
-    public void addAccount(@RequestBody AccountEntity accountEntity) {
+    public void addAccount(@RequestBody AccountDTO accountEntity) {
         accountService.addAccount(accountEntity);
     }
 }

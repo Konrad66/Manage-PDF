@@ -11,6 +11,13 @@ public class AccountDTO {
     private String email;
     private String password;
 
+    public AccountDTO(int id, List<String> employeesMails, String email, String password) {
+        this.id = id;
+        this.employeesMails = employeesMails;
+        this.email = email;
+        this.password = password;
+    }
+
     public AccountDTO() {
     }
 
