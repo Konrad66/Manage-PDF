@@ -21,6 +21,7 @@ import java.util.Objects;
 public class PdfController {
 
     private PdfService pdfService;
+    private static final String FILE_PATH = "app/";
 
     public PdfController(PdfService pdfService) {
         this.pdfService = pdfService;
@@ -61,7 +62,7 @@ public class PdfController {
 //todo czy serwer pozwoli na zapisanie pliku pdf, generowanie id dla pdfów,
         try {
             // Zapis pliku na serwer (np. do katalogu "uploads")
-            Path filePath = Paths.get("uploads/" + file.getOriginalFilename());
+            Path filePath = Paths.get(FILE_PATH + file.getOriginalFilename());
             Files.createDirectories(filePath.getParent()); // Tworzenie katalogu jeśli nie istnieje
             Files.write(filePath, file.getBytes());
 
@@ -75,7 +76,7 @@ public class PdfController {
     public ResponseEntity<Resource> downloadPdf(String fileName) throws IOException {
         // 1. Załóżmy, że masz lokalny plik PDF w katalogu resources
         //    lub na dysku (uwaga na ścieżki w środowisku Docker!)
-        File pdfFile = new File("uploads/" + fileName);
+        File pdfFile = new File(FILE_PATH + fileName);
 
         // 2. Tworzymy zasób jako InputStreamResource (możesz też użyć ByteArrayResource itd.)
         InputStreamResource resource = new InputStreamResource(new FileInputStream(pdfFile));
