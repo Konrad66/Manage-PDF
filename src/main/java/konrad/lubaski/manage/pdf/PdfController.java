@@ -1,9 +1,15 @@
 package konrad.lubaski.manage.pdf;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -63,5 +69,23 @@ public class PdfController {
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body("Błąd podczas zapisywania pliku!");
         }
+    }
+
+    @GetMapping("/download")
+    public ResponseEntity<Resource> downloadPdf(String fileName) throws IOException {
+        // 1. Załóżmy, że masz lokalny plik PDF w katalogu resources
+        //    lub na dysku (uwaga na ścieżki w środowisku Docker!)
+        File pdfFile = new File("uploads/" + fileName);
+
+        // 2. Tworzymy zasób jako InputStreamResource (możesz też użyć ByteArrayResource itd.)
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(pdfFile));
+
+        // 3. Tworzymy odpowiedź HTTP
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + pdfFile.getName() + "\"") // lub inline
+                .contentType(MediaType.APPLICATION_PDF)
+                .contentLength(pdfFile.length())
+                .body(resource);
     }
 }

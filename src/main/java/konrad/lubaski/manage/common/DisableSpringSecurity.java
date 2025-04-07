@@ -28,3 +28,4 @@ public class DisableSpringSecurity {
                 .build();
     }
 }
+//adnotacja component mowi Springowi żeby stworzył obiekt danej klasu i nim zarządzał i taki obiekt nazywa się Bean, innym sposobem utworzenia bean jest adnotacja Bean na metodzie
