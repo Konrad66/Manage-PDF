@@ -1,14 +1,14 @@
 package konrad.lubaski.manage.customer;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+//import jakarta.persistence.Entity;
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.Id;
 
-@Entity
+//@Entity
 public class CustomerEntity {
 
-    @Id
-    @GeneratedValue
+//    @Id
+//    @GeneratedValue
     private int id;
     private String firstName;
     private String lastName;

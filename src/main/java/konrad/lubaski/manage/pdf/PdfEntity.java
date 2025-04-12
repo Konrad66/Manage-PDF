@@ -1,16 +1,16 @@
 package konrad.lubaski.manage.pdf;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+//import jakarta.persistence.Entity;
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.Id;
 
 //wymagane przez Hibernate
-@Entity
+//@Entity
 public class PdfEntity {
 
     //wymagane przez Hibernate
-    @Id
-    @GeneratedValue
+//    @Id
+//    @GeneratedValue
     private int id;
     private String content;
 

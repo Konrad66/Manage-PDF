@@ -1,7 +1,14 @@
 package konrad.lubaski.manage.account;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AccountJpaRepository extends JpaRepository<AccountEntity, Integer> {
 
+import java.util.List;
+
+public interface AccountJpaRepository {
+
+    void save(AccountEntity accountEntity);
+
+    List<AccountEntity> findAll();
+
+    AccountEntity getReferenceById(Integer accountId);
 }

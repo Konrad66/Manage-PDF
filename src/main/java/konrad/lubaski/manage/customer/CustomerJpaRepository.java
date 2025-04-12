@@ -1,7 +1,10 @@
 package konrad.lubaski.manage.customer;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+//import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CustomerJpaRepository extends JpaRepository<CustomerEntity, Integer> {
+import java.util.List;
 
+public interface CustomerJpaRepository {
+
+    List<CustomerEntity> findAll();
 }

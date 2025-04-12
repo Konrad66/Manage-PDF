@@ -1,16 +1,16 @@
 package konrad.lubaski.manage.account;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+//import jakarta.persistence.Entity;
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.Id;
 
 import java.util.List;
 
-@Entity
+//@Entity
 public class AccountEntity {
 
-    @Id
-    @GeneratedValue
+  //  @Id
+    //@GeneratedValue
     private int id;
     private List<String> employeesMails;
     private String email;
