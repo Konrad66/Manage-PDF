@@ -44,30 +44,22 @@ public class PdfController {
         return pdfService.getPdfs();
     }
 
-    @PostMapping("/pdfs")
-    public void addNewPdf(@RequestBody PdfEntity pdfEntity) {
-        pdfService.addPdf(pdfEntity);
-    }
-
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(MultipartFile file) {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("Plik jest pusty!");
         }
 
-        // Sprawdzenie czy to PDF
         if (!Objects.equals(file.getContentType(), "application/pdf")) {
             return ResponseEntity.badRequest().body("Tylko pliki PDF są dozwolone!");
         }
-//todo czy serwer pozwoli na zapisanie pliku pdf, generowanie id dla pdfów,
-        try {
-            // Zapis pliku na serwer (np. do katalogu "uploads")
-            Path filePath = Paths.get(FILE_PATH + file.getOriginalFilename());
-            Files.createDirectories(filePath.getParent()); // Tworzenie katalogu jeśli nie istnieje
-            Files.write(filePath, file.getBytes());
 
-            return ResponseEntity.ok("Plik został zapisany: " + filePath);
-        } catch (IOException e) {
+        try {
+            pdfService.addPdf(new PdfDto(
+                    file.getBytes()
+            ));
+            return ResponseEntity.ok("Plik został zapisany: ");
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Błąd podczas zapisywania pliku!");
         }
     }

@@ -1,8 +1,6 @@
 package konrad.lubaski.manage.pdf;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 //wymagane przez Hibernate
 @Entity
@@ -12,10 +10,14 @@ public class PdfEntity {
     @Id
     @GeneratedValue
     private int id;
-    private String content;
+    //@Lob
+    // @Column(columnDefinition = "bytea")
+    // hibernate powininien domyślnie ustawić typ kolumny na "bytea", a rzeczy powyżej dodaje się dla większej kontorli
+    //@Basic(fetch = FetchType.LAZY) //może być potrzebne jeśli często wyciągamy pdfy nie dotykając tej tablicy, żeby się nie ładowała do pamięci
+    private byte[] data;
 
-    public PdfEntity(String content) {
-        this.content = content;
+    public PdfEntity(byte[] data) {
+        this.data = data;
     }
 
     //wymagane przez Hibernate
@@ -29,7 +31,8 @@ public class PdfEntity {
     }
 
     //wymagane przez Jackson
-    public String getContent() {
-        return content;
+
+    public byte[] getData() {
+        return data;
     }
 }

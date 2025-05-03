@@ -21,7 +21,9 @@ public class PdfService {
         return pdfJpaRepository.findAll();
     }
 
-    public void addPdf(PdfEntity pdf) {
-        pdfJpaRepository.save(pdf);
+    public void addPdf(PdfDto pdf) {
+        pdfJpaRepository.save(new PdfEntity(
+                pdf.getData()
+        ));
     }
 }
