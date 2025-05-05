@@ -1,10 +1,11 @@
 package konrad.lubaski.manage.pdf;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 //wymagane przez Hibernate
 @Entity
-public class PdfEntity {
+public class PdfFileEntity {
 
     //wymagane przez Hibernate
     @Id
@@ -16,9 +17,17 @@ public class PdfEntity {
     // @Column(columnDefinition = "bytea")
     // hibernate powininien domyślnie ustawić typ kolumny na "bytea", a rzeczy powyżej dodaje się dla większej kontorli
     //@Basic(fetch = FetchType.LAZY) //może być potrzebne jeśli często wyciągamy pdfy nie dotykając tej tablicy, żeby się nie ładowała do pamięci
+    @JsonIgnore
     private byte[] data;
 
-    public PdfEntity(String fileName, String contentType, byte[] data) {
+    public PdfFileEntity(int id, String fileName, String contentType, byte[] data) {
+        this.id = id;
+        this.fileName = fileName;
+        this.contentType = contentType;
+        this.data = data;
+    }
+
+    public PdfFileEntity(String fileName, String contentType, byte[] data) {
         this.fileName = fileName;
         this.contentType = contentType;
         this.data = data;
@@ -26,7 +35,7 @@ public class PdfEntity {
 
     //wymagane przez Hibernate
     //wymagane przez Jackson
-    PdfEntity() {
+    PdfFileEntity() {
     }
 
     //wymagane przez Jackson

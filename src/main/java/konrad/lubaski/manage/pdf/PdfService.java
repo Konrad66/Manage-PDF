@@ -2,37 +2,26 @@ package konrad.lubaski.manage.pdf;
 
 import org.springframework.stereotype.Component;
 
-import java.util.*;
-
 @Component
 public class PdfService {
 
-    private PdfJpaRepository pdfJpaRepository;
+    private PdfFileJpaRepository pdfFileJpaRepository;
 
-    public PdfService(PdfJpaRepository pdfJpaRepository) {
-        this.pdfJpaRepository = pdfJpaRepository;
+    public PdfService(PdfFileJpaRepository pdfFileJpaRepository) {
+        this.pdfFileJpaRepository = pdfFileJpaRepository;
     }
 
-    public PdfDto getPdf(Integer pdfId) {
-        PdfEntity entity = pdfJpaRepository.findById(pdfId).orElseThrow();
-        return new PdfDto(
+    public PdfFileEntity getPdf(Integer pdfId) {
+        PdfFileEntity entity = pdfFileJpaRepository.findById(pdfId).orElseThrow();
+        return new PdfFileEntity(
                 entity.getId(),
                 entity.getFileName(),
                 entity.getContentType(),
                 entity.getData()
         );
-
     }
 
-    public Collection<PdfEntity> getPdfs() {
-        return pdfJpaRepository.findAll();
-    }
-
-    public void addPdf(PdfDto pdf) {
-        pdfJpaRepository.save(new PdfEntity(
-                pdf.getFileName(),
-                pdf.getContentType(),
-                pdf.getData()
-        ));
+    public PdfFileEntity addPdf(PdfFileEntity pdf) {
+        return pdfFileJpaRepository.save(pdf);
     }
 }
