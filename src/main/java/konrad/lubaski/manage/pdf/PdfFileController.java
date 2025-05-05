@@ -27,7 +27,7 @@ public class PdfFileController {
     }
 
     @PostMapping
-    public ResponseEntity<?> uploadFile(MultipartFile file) {
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
         System.out.println("hej jestem" + file);
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("File is empty!");
