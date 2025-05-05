@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.Objects;
 
@@ -29,6 +28,7 @@ public class PdfFileController {
 
     @PostMapping
     public ResponseEntity<?> uploadFile(MultipartFile file) {
+        System.out.println("hej jestem" + file);
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("File is empty!");
         }
