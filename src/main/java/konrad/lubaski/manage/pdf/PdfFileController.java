@@ -1,5 +1,6 @@
 package konrad.lubaski.manage.pdf;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,10 @@ import java.util.Objects;
 public class PdfFileController {
 
     private PdfService pdfService;
+    @Value("${domain}")
+    private String domain;
+    @Value("${protocol}")
+    private String protocol;
 
     public PdfFileController(PdfService pdfService) {
         this.pdfService = pdfService;
@@ -37,7 +42,7 @@ public class PdfFileController {
                     file.getBytes()
             ));
             //todo refactor hardcoded domain
-            return ResponseEntity.created(URI.create("http://localhost:8080/pdf-files/" + pdfFile.getId())).body(pdfFile);
+            return ResponseEntity.created(URI.create(protocol + domain + "/pdf-files/" + pdfFile.getId())).body(pdfFile);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error while saving file!");
         }
