@@ -1,5 +1,6 @@
 package konrad.lubaski.manage.pdf;
 
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -34,28 +35,20 @@ public class PdfController {
         return "hello";
     }
 
-    @GetMapping("/pdfs/{pdfId}")
-    public PdfEntity getNewPdf(@PathVariable Integer pdfId) {
-        return pdfService.getPdf(pdfId);
-    }
-
-    @GetMapping("/pdfs")
-    public Collection<PdfEntity> getAllPdfs() {
-        return pdfService.getPdfs();
-    }
-
-    @PostMapping("/upload")
+    //todo zwracaj Id utworzonego
+    @PostMapping("/pdfs")
     public ResponseEntity<String> uploadFile(MultipartFile file) {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("Plik jest pusty!");
         }
-
         if (!Objects.equals(file.getContentType(), "application/pdf")) {
             return ResponseEntity.badRequest().body("Tylko pliki PDF są dozwolone!");
         }
 
         try {
             pdfService.addPdf(new PdfDto(
+                    file.getOriginalFilename(),
+                    file.getContentType(),
                     file.getBytes()
             ));
             return ResponseEntity.ok("Plik został zapisany: ");
@@ -64,21 +57,14 @@ public class PdfController {
         }
     }
 
-    @GetMapping("/download")
-    public ResponseEntity<Resource> downloadPdf(String fileName) throws IOException {
-        // 1. Załóżmy, że masz lokalny plik PDF w katalogu resources
-        //    lub na dysku (uwaga na ścieżki w środowisku Docker!)
-        File pdfFile = new File(FILE_PATH + fileName);
-
-        // 2. Tworzymy zasób jako InputStreamResource (możesz też użyć ByteArrayResource itd.)
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(pdfFile));
-
-        // 3. Tworzymy odpowiedź HTTP
+    @GetMapping("/pdfs/{id}")
+    public ResponseEntity<Resource> downloadPdf(@PathVariable int id) throws IOException {
+        PdfDto pdf = pdfService.getPdf(id);
+        ByteArrayResource byteArrayResource = new ByteArrayResource(pdf.getData());
         return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(pdf.getContentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + pdfFile.getName() + "\"") // lub inline
-                .contentType(MediaType.APPLICATION_PDF)
-                .contentLength(pdfFile.length())
-                .body(resource);
+                        "attachment; filename=\"" + pdf.getFileName() + "\"")
+                .body(byteArrayResource);
     }
 }

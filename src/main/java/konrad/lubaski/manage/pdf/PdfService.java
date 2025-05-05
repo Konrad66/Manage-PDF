@@ -13,8 +13,15 @@ public class PdfService {
         this.pdfJpaRepository = pdfJpaRepository;
     }
 
-    public PdfEntity getPdf(Integer pdfId) {
-        return pdfJpaRepository.findById(pdfId).orElseThrow();
+    public PdfDto getPdf(Integer pdfId) {
+        PdfEntity entity = pdfJpaRepository.findById(pdfId).orElseThrow();
+        return new PdfDto(
+                entity.getId(),
+                entity.getFileName(),
+                entity.getContentType(),
+                entity.getData()
+        );
+
     }
 
     public Collection<PdfEntity> getPdfs() {
@@ -23,6 +30,8 @@ public class PdfService {
 
     public void addPdf(PdfDto pdf) {
         pdfJpaRepository.save(new PdfEntity(
+                pdf.getFileName(),
+                pdf.getContentType(),
                 pdf.getData()
         ));
     }
