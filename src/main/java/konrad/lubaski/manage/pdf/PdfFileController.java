@@ -28,7 +28,6 @@ public class PdfFileController {
 
     @PostMapping
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
-        System.out.println("hej jestem" + file);
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("File is empty!");
         }
@@ -47,6 +46,8 @@ public class PdfFileController {
             return ResponseEntity.internalServerError().body("Error while saving file!");
         }
     }
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Resource> downloadPdf(@PathVariable int id) {
