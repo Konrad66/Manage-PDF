@@ -35,7 +35,7 @@ public class PdfFileController {
             return ResponseEntity.badRequest().body("Only PDF files are allowed!");
         }
         try {
-            PdfFileEntity pdfFile = pdfService.addPdf(new PdfFileEntity(
+            PdfFileEntity pdfFile = pdfService.addPdfFile(new PdfFileEntity(
                     file.getOriginalFilename(),
                     file.getContentType(),
                     file.getBytes()
@@ -51,7 +51,7 @@ public class PdfFileController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Resource> downloadPdf(@PathVariable int id) {
-        PdfFileEntity pdf = pdfService.getPdf(id);
+        PdfFileEntity pdf = pdfService.getPdfFile(id);
         ByteArrayResource byteArrayResource = new ByteArrayResource(pdf.getData());
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(pdf.getContentType()))

@@ -14,13 +14,21 @@ public class PdfController {
     private String domain;
     @Value("${protocol}")
     private String protocol;
+    private PdfService pdfService;
 
+    public PdfController(PdfService pdfService) {
+        this.pdfService = pdfService;
+    }
+
+    //todo poprawić
     @PostMapping
-    public ResponseEntity<PdfDTO> savePdf(@RequestBody PdfDTO pdfDTO) {
-        PdfDTO dto = new PdfDTO(
-                pdfDTO.getId(),
-                pdfDTO.getName()
-        );
-        return ResponseEntity.created(URI.create(protocol + domain + "/pdfs/" + dto.getId())).body(dto);
+    public ResponseEntity<PdfDTO> savePdf(@RequestBody PdfDTO requestPdf) {
+        PdfDTO createdPdf = pdfService.addPdf(requestPdf);
+        return ResponseEntity.created(URI.create(protocol + domain + "/pdfs/" + createdPdf.getId())).body(createdPdf);
+    }
+
+    @GetMapping("/{id}")
+    public PdfDTO getPdfById(@PathVariable int id) {
+        return pdfService.getPdfById(id);
     }
 }
