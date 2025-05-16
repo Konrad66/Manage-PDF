@@ -9,7 +9,6 @@ public class PdfFileEntity {
 
     //wymagane przez Hibernate
     @Id
-    @GeneratedValue
     private int id;
     private String fileName;
     private String contentType;

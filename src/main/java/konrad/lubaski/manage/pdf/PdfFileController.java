@@ -26,8 +26,8 @@ public class PdfFileController {
         this.pdfService = pdfService;
     }
 
-    @PostMapping
-    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/{id}")
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable int id) {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("File is empty!");
         }
@@ -36,6 +36,7 @@ public class PdfFileController {
         }
         try {
             PdfFileEntity pdfFile = pdfService.addPdfFile(new PdfFileEntity(
+                    id,
                     file.getOriginalFilename(),
                     file.getContentType(),
                     file.getBytes()
@@ -46,8 +47,6 @@ public class PdfFileController {
             return ResponseEntity.internalServerError().body("Error while saving file!");
         }
     }
-
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Resource> downloadPdf(@PathVariable int id) {

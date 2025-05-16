@@ -20,7 +20,6 @@ public class PdfController {
         this.pdfService = pdfService;
     }
 
-    //todo poprawić
     @PostMapping
     public ResponseEntity<PdfDTO> savePdf(@RequestBody PdfDTO requestPdf) {
         PdfDTO createdPdf = pdfService.addPdf(requestPdf);
