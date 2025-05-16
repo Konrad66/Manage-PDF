@@ -17,13 +17,11 @@ import java.util.Objects;
 public class PdfFileController {
 
     private PdfService pdfService;
-    @Value("${domain}")
-    private String domain;
-    @Value("${protocol}")
-    private String protocol;
+    private PdfUrlBuilder pdfUrlBuilder;
 
-    public PdfFileController(PdfService pdfService) {
+    public PdfFileController(PdfService pdfService, PdfUrlBuilder pdfUrlBuilder) {
         this.pdfService = pdfService;
+        this.pdfUrlBuilder = pdfUrlBuilder;
     }
 
     @PostMapping("/{id}")
@@ -42,7 +40,7 @@ public class PdfFileController {
                     file.getBytes()
             ));
             //todo refactor hardcoded domain
-            return ResponseEntity.created(URI.create(protocol + domain + "/pdf-files/" + pdfFile.getId())).body(pdfFile);
+            return ResponseEntity.created(URI.create(pdfUrlBuilder.buildUrl("/pdf-files", pdfFile.getId()))).body(pdfFile);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error while saving file!");
         }
