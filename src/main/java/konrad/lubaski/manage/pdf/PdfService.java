@@ -2,7 +2,7 @@ package konrad.lubaski.manage.pdf;
 
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Component
 public class PdfService {
@@ -32,10 +32,19 @@ public class PdfService {
     }
 
     public PdfDTO addPdf(PdfDTO pdfDTO) {
+        pdfFileJpaRepository.findById(pdfDTO.getId()).orElseThrow();
+
+        if(!pdfFileJpaRepository.existsById(pdfDTO.getId())){
+            throw new NoSuchElementException("No pdf file");
+        }
+
+
+
         PdfEntity entity = pdfJpaRepository.save(new PdfEntity(
                 pdfDTO.getId(),
                 pdfDTO.getName()
         ));
+        //sprawdzić czy w bazie jest plik pdf o tym samym id
         return new PdfDTO(
                 entity.getId(),
                 entity.getName());
