@@ -1,5 +1,6 @@
 package konrad.lubaski.manage.account;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -12,11 +13,18 @@ public class AccountEntity {
     @Id
     @GeneratedValue
     private int id;
+    @ElementCollection
     private List<String> employeesMails;
     private String email;
     private String password;
 
     public AccountEntity(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public AccountEntity(List<String> employeesMails, String email, String password) {
+        this.employeesMails = employeesMails;
         this.email = email;
         this.password = password;
     }

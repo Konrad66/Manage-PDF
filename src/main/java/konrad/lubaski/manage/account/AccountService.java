@@ -41,7 +41,7 @@ public class AccountService {
     }
 
     public void addAccount(AccountDTO accountDTO) {
-        AccountEntity accountEntity = new AccountEntity(accountDTO.getEmail(), accountDTO.getPassword());
+        AccountEntity accountEntity = new AccountEntity(accountDTO.getEmployeesMails(),accountDTO.getEmail(), accountDTO.getPassword());
         accountJpaRepository.save(accountEntity);
     }
 }

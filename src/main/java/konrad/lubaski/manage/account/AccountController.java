@@ -24,11 +24,10 @@ public class AccountController {
     }
 
     @PostMapping("/accounts")
-    public void addAccount(@RequestBody AccountDTO accountEntity) {
-        accountService.addAccount(accountEntity);
+    public void addAccount(@RequestBody AccountDTO accountDTO) {
+        accountService.addAccount(accountDTO);
     }
 }
 
 
 //todo @RequestBody ->
-//todo dokończyć account i dodać 3 typ danych jako przykład
