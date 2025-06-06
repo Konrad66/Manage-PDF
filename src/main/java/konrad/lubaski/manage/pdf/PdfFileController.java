@@ -25,6 +25,7 @@ public class PdfFileController {
 
     @PostMapping("/{id}")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable int id) {
+        System.out.println("test");
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("File is empty!");
         }
@@ -41,6 +42,7 @@ public class PdfFileController {
             //todo refactor hardcoded domain
             return ResponseEntity.created(URI.create(pdfUrlBuilder.buildUrl("/pdf-files", pdfFile.getId()))).body(pdfFile);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().body("Error while saving file!");
         }
     }

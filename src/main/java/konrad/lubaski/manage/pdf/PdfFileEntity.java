@@ -12,10 +12,10 @@ public class PdfFileEntity {
     private int id;
     private String fileName;
     private String contentType;
-    //@Lob
     // @Column(columnDefinition = "bytea")
     // hibernate powininien domyślnie ustawić typ kolumny na "bytea", a rzeczy powyżej dodaje się dla większej kontorli
     //@Basic(fetch = FetchType.LAZY) //może być potrzebne jeśli często wyciągamy pdfy nie dotykając tej tablicy, żeby się nie ładowała do pamięci
+    @Lob
     @JsonIgnore
     private byte[] data;
 
