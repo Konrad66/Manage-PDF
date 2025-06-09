@@ -1,5 +1,7 @@
 package konrad.lubaski.manage.account;
 
+import konrad.lubaski.manage.common.PasswordEncoderConfig;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,9 +12,11 @@ import java.util.List;
 public class AccountService {
 
     private AccountJpaRepository accountJpaRepository;
+    private PasswordEncoder passwordEncoder;
 
-    public AccountService(AccountJpaRepository accountJpaRepository) {
+    public AccountService(AccountJpaRepository accountJpaRepository, PasswordEncoder passwordEncoder) {
         this.accountJpaRepository = accountJpaRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public AccountDTO getAccount(Integer accountId) {
@@ -41,7 +45,7 @@ public class AccountService {
     }
 
     public void addAccount(AccountDTO accountDTO) {
-        AccountEntity accountEntity = new AccountEntity(accountDTO.getEmployeesMails(),accountDTO.getEmail(), accountDTO.getPassword());
+        AccountEntity accountEntity = new AccountEntity(accountDTO.getEmployeesMails(), accountDTO.getEmail(), passwordEncoder.encode(accountDTO.getPassword()));
         accountJpaRepository.save(accountEntity);
     }
 }

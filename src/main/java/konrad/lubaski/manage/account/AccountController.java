@@ -27,6 +27,11 @@ public class AccountController {
     public void addAccount(@RequestBody AccountDTO accountDTO) {
         accountService.addAccount(accountDTO);
     }
+
+    @GetMapping("/hello")
+    public String helloTest(){
+        return "Hello";
+    }
 }
 
 
