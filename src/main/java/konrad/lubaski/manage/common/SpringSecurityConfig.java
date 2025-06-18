@@ -1,12 +1,21 @@
 package konrad.lubaski.manage.common;
 
+import konrad.lubaski.manage.account.AccountService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SpringSecurityConfig {
+
+    private AccountService accountService;
+
+    public SpringSecurityConfig(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @Bean
     public SecurityFilterChain configureSecurity(HttpSecurity httpSecurity) throws Exception {
@@ -16,6 +25,8 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(customizer -> customizer
                         .requestMatchers("/hello").authenticated()
                         .anyRequest().permitAll())
+                .userDetailsService(accountService)
+                .httpBasic(Customizer.withDefaults())
                 .build();
     }
 }
